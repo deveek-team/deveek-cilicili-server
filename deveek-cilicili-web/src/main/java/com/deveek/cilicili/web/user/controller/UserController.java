@@ -22,6 +22,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @PreAuthorize("hasAnyAuthority('USER_R', 'USER_W')")
     @GetMapping("/api/user/v1")
     public Result<UserVo> getUser(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
