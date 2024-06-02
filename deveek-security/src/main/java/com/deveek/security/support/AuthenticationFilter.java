@@ -44,7 +44,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         
-        // If the request header does not carry Login Token.
+        // If the request header does not carry Login Token, deny access directly.
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StrUtil.isBlank(accessToken)) {
             ResponseUtil.write(response, Result.UNAUTHORIZED);
@@ -77,9 +77,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         
         // If the access_token is inconsistent with the access_token stored in Redis,
         // notify the client to obtain a new access_token.
-        String loginTokenCacheKey = UserCacheKey.ACCESS_TOKEN.getKey(userId);
-        String loginTokenCache = (String) redisTemplate.opsForValue().get(loginTokenCacheKey);
-        if (!accessToken.equals(loginTokenCache)) {
+        String accessTokenCacheKey = UserCacheKey.ACCESS_TOKEN.getKey(userId);
+        String accessTokenCache = (String) redisTemplate.opsForValue().get(accessTokenCacheKey);
+        if (!accessToken.equals(accessTokenCache)) {
             ResponseUtil.write(response, Result.TOKEN_EXPIRED);
             return;
         }
