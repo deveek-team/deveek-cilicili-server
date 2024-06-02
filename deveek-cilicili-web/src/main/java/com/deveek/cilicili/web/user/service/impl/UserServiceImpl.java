@@ -3,6 +3,7 @@ package com.deveek.cilicili.web.user.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.deveek.cilicili.web.common.user.UserCacheKey;
 import com.deveek.cilicili.web.common.user.UserResult;
 import com.deveek.cilicili.web.user.entity.domain.*;
 import com.deveek.cilicili.web.user.entity.vo.UserVo;
@@ -10,7 +11,9 @@ import com.deveek.cilicili.web.user.mapper.UserMapper;
 import com.deveek.cilicili.web.user.service.*;
 import com.deveek.common.constant.Constant;
 import com.deveek.common.exception.ClientException;
+import com.deveek.security.support.AuthenticationTokenUtil;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +45,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
     
     @Resource
     private RoleAuthService roleAuthService;
+    
+    @Resource
+    private RedisTemplate redisTemplate;
     
     @Override
     public UserDo getUserDo(String username) {
@@ -128,6 +135,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
             .collect(Collectors.toSet());
         
         return authIdSet;
+    }
+    
+    @Override
+    public String buildAccessTokenCache(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        String accessToken = AuthenticationTokenUtil.genAccessToken(userId, username, password, authorities);
+        
+        redisTemplate.opsForValue().set(
+            UserCacheKey.ACCESS_TOKEN.getKey(userId),
+            accessToken,
+            UserCacheKey.ACCESS_TOKEN.timeout,
+            UserCacheKey.ACCESS_TOKEN.unit
+        );
+        
+        return accessToken;
+    }
+    
+    @Override
+    public String buildRefreshTokenCache(Long userId, String username) {
+        String refreshToken = AuthenticationTokenUtil.genRefreshToken(userId, username);
+        
+        redisTemplate.opsForValue().set(
+            UserCacheKey.REFRESH_TOKEN.getKey(userId),
+            refreshToken
+        );
+        
+        return refreshToken;
     }
     
     @Override

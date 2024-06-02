@@ -2,6 +2,7 @@ package com.deveek.cilicili.web.user.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.jwt.JWT;
+import com.deveek.cilicili.web.common.user.UserCacheKey;
 import com.deveek.cilicili.web.common.user.UserConstant;
 import com.deveek.cilicili.web.common.user.UserResult;
 import com.deveek.common.exception.ClientException;
@@ -14,6 +15,7 @@ import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.security.support.AuthenticationTokenUtil;
 import jakarta.annotation.Resource;
 import org.redisson.api.RBloomFilter;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -41,6 +43,9 @@ public class UserController {
     
     @Resource(name = "userBloomFilter")
     private RBloomFilter userBloomFilter;
+    
+    @Resource
+    private RedisTemplate redisTemplate;
     
     @Transactional
     @PostMapping(path = "/api/user/v1/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -78,7 +83,7 @@ public class UserController {
         String password = userDo.getPassword();
         Collection<? extends GrantedAuthority> authorities = userDo.getAuthorities();
         
-        String accessToken = AuthenticationTokenUtil.genAccessToken(userId, username, password, authorities);
+        String accessToken = userService.buildAccessTokenCache(userId, username, password, authorities);
         
         UserRefreshTokenVo userRefreshTokenVo = new UserRefreshTokenVo();
         userRefreshTokenVo.setAccessToken(accessToken);

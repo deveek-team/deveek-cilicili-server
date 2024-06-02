@@ -3,6 +3,9 @@ package com.deveek.cilicili.web.user.service;
 import com.deveek.cilicili.web.user.entity.domain.UserDo;
 import com.deveek.cilicili.web.user.entity.vo.UserVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 /**
  * @Author harvey
@@ -11,6 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<UserDo> {
     UserDo getUserDo(String username);
+    
+    String buildAccessTokenCache(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities);
+    
+    String buildRefreshTokenCache(Long userId, String username);
     
     UserVo getUserVo(String username);
     
