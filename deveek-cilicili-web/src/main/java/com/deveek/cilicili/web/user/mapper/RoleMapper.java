@@ -1,7 +1,7 @@
 package com.deveek.cilicili.web.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.deveek.cilicili.web.user.entity.domain.RoleDo;
+import com.deveek.cilicili.web.common.user.model.po.RolePo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date 2024-05-22
  */
 @Mapper
-public interface RoleMapper extends BaseMapper<RoleDo> {
+public interface RoleMapper extends BaseMapper<RolePo> {
 }

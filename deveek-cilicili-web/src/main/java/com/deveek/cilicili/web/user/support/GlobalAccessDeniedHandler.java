@@ -1,6 +1,6 @@
 package com.deveek.cilicili.web.user.support;
 
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 import com.deveek.common.support.ResponseUtil;
 import com.deveek.log.support.ExceptionLogger;
 import jakarta.servlet.ServletException;

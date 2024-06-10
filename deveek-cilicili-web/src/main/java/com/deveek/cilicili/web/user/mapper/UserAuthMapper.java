@@ -1,7 +1,7 @@
 package com.deveek.cilicili.web.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.deveek.cilicili.web.user.entity.domain.UserAuthDo;
+import com.deveek.cilicili.web.common.user.model.po.UserAuthPo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date 2024-05-28
  */
 @Mapper
-public interface UserAuthMapper extends BaseMapper<UserAuthDo> {
+public interface UserAuthMapper extends BaseMapper<UserAuthPo> {
 }

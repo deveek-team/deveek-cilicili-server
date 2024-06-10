@@ -1,7 +1,8 @@
 package com.deveek.database.support;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.deveek.security.support.UserContextHolder;
+import com.deveek.security.common.service.UserContextHolder;
+import jakarta.annotation.Resource;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;
@@ -12,9 +13,12 @@ import java.time.LocalDateTime;
  * @Date 2024-05-27
  */
 public class AuditMetaObjectHandler implements MetaObjectHandler {
+    @Resource
+    private UserContextHolder userContextHolder;
+    
     @Override
     public void insertFill(MetaObject metaObject) {
-        Long userId = UserContextHolder.getUserId();
+        Long userId = userContextHolder.getUserId();
         
         strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
         strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
@@ -24,7 +28,7 @@ public class AuditMetaObjectHandler implements MetaObjectHandler {
     
     @Override
     public void updateFill(MetaObject metaObject) {
-        Long userId = UserContextHolder.getUserId();
+        Long userId = userContextHolder.getUserId();
         
         strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
         strictUpdateFill(metaObject, "updateBy", Long.class, userId);

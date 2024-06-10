@@ -1,7 +1,7 @@
 package com.deveek.cilicili.web.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.deveek.cilicili.web.user.entity.domain.RoleDo;
+import com.deveek.cilicili.web.common.user.model.po.RolePo;
 import com.deveek.cilicili.web.user.mapper.RoleMapper;
 import com.deveek.cilicili.web.user.service.RoleService;
 import org.springframework.stereotype.Service;
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Service;
  * @Date 2024-05-22
  */
 @Service
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDo> implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, RolePo> implements RoleService {
 }

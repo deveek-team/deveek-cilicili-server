@@ -1,11 +1,10 @@
 package com.deveek.cilicili.web.user.support;
 
-import com.deveek.cilicili.web.common.user.UserCacheKey;
-import com.deveek.cilicili.web.user.entity.domain.UserDo;
-import com.deveek.cilicili.web.user.entity.vo.LoginVo;
-import com.deveek.cilicili.web.user.service.UserService;
-import com.deveek.common.result.Result;
+import com.deveek.cilicili.web.common.user.model.vo.LoginVo;
+import com.deveek.common.constant.Result;
 import com.deveek.common.support.ResponseUtil;
+import com.deveek.security.common.constant.SecurityCacheKey;
+import com.deveek.security.model.dto.UserDetailsDto;
 import com.deveek.security.support.AuthenticationTokenUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -28,19 +27,30 @@ import java.util.Collection;
 @Component
 public class GlobalAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Resource
-    private UserService userService;
+    private RedisTemplate redisTemplate;
     
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        UserDo userDo = (UserDo) authentication.getPrincipal();
-        Long userId = userDo.getId();
-        String username = userDo.getUsername();
-        String password = userDo.getPassword();
-        Collection<? extends GrantedAuthority> authorities = userDo.getAuthorities();
+        UserDetailsDto userDetailsDto = (UserDetailsDto) authentication.getPrincipal();
+        Long userId = userDetailsDto.getId();
+        String username = userDetailsDto.getUsername();
+        String password = userDetailsDto.getPassword();
+        Collection<? extends GrantedAuthority> authorities = userDetailsDto.getAuthorities();
         
-        String accessToken = userService.buildAccessTokenCache(userId, username, password, authorities);
+        String accessToken = AuthenticationTokenUtil.genAccessToken(userId, username, password, authorities);
         
-        String refreshToken = userService.buildRefreshTokenCache(userId, username);
+        redisTemplate.opsForValue().set(
+            SecurityCacheKey.ACCESS_TOKEN.getKey(userId),
+            accessToken,
+            SecurityCacheKey.ACCESS_TOKEN.timeout,
+            SecurityCacheKey.ACCESS_TOKEN.unit
+        );
+        
+        String refreshToken = AuthenticationTokenUtil.genRefreshToken(userId, username);
+        redisTemplate.opsForValue().set(
+            SecurityCacheKey.REFRESH_TOKEN.getKey(userId),
+            refreshToken
+        );
         
         LoginVo loginVo = new LoginVo();
         loginVo.setUserId(userId);

@@ -1,6 +1,6 @@
 package com.deveek.common.exception;
 
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 
 /**
  * @Author harvey

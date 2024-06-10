@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.deveek.common.exception.ExceptionFactory;
 import com.deveek.common.exception.ExceptionType;
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 
 import java.util.Collection;
 

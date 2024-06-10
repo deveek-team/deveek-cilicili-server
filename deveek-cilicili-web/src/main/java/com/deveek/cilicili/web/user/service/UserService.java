@@ -1,8 +1,8 @@
 package com.deveek.cilicili.web.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.deveek.cilicili.web.user.entity.domain.UserDo;
-import com.deveek.cilicili.web.user.entity.vo.UserVo;
+import com.deveek.cilicili.web.common.user.model.po.UserPo;
+import com.deveek.cilicili.web.common.user.model.vo.UserVo;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -12,12 +12,7 @@ import java.util.Collection;
  * @Email harveysuen0803@gmail.com
  * @Date 2024-05-22
  */
-public interface UserService extends IService<UserDo> {
-    /**
-     * Get userDo with authorization information by username.
-     */
-    UserDo getUserDo(String username);
-    
+public interface UserService extends IService<UserPo> {
     /**
      * Build the access_token and cache it.
      */

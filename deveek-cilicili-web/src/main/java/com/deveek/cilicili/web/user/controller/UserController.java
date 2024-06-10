@@ -1,8 +1,8 @@
 package com.deveek.cilicili.web.user.controller;
 
-import com.deveek.cilicili.web.user.entity.vo.UserVo;
+import com.deveek.cilicili.web.common.user.model.vo.UserVo;
 import com.deveek.cilicili.web.user.service.UserService;
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 import jakarta.annotation.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -22,14 +22,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/api/user/v1")
+    @GetMapping("/api/v1/user")
     public Result<UserVo> getUser(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
         
         return Result.success(userVo);
     }
     
-    @GetMapping("/api/user/v1/mask")
+    @GetMapping("/api/v1/user/v1")
     public Result<UserVo> getUserMask(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
         

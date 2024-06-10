@@ -1,6 +1,8 @@
 package com.deveek.cilicili.web.user.config;
 
-import com.deveek.cilicili.web.common.user.UserHttpUri;
+import com.deveek.security.common.constant.SecurityHttpUri;
+import com.deveek.security.common.service.UserContextHolder;
+import com.deveek.security.service.impl.UserContextHolderImpl;
 import com.deveek.security.support.AuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +30,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  */
 @Slf4j
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -43,12 +47,12 @@ public class SecurityConfig {
         httpSecurity.cors(AbstractHttpConfigurer::disable);
         
         httpSecurity.authorizeHttpRequests((authorize) -> {
-            authorize.requestMatchers(UserHttpUri.LOGIN, UserHttpUri.LOGOUT, UserHttpUri.REGISTER, UserHttpUri.REFRESH).permitAll()
+            authorize.requestMatchers(SecurityHttpUri.LOGIN, SecurityHttpUri.LOGOUT, SecurityHttpUri.REGISTER, SecurityHttpUri.REFRESH).permitAll()
                 .anyRequest().authenticated();
         });
         
         httpSecurity.formLogin((formLogin) -> {
-            formLogin.loginProcessingUrl(UserHttpUri.LOGIN)
+            formLogin.loginProcessingUrl(SecurityHttpUri.LOGIN)
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler)
@@ -57,7 +61,7 @@ public class SecurityConfig {
         });
         
         httpSecurity.logout((logout) -> {
-            logout.logoutUrl(UserHttpUri.LOGOUT)
+            logout.logoutUrl(SecurityHttpUri.LOGOUT)
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .permitAll();
         });
@@ -85,5 +89,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationFilter authenticationFilter() {
         return new AuthenticationFilter();
+    }
+    
+    @Bean
+    public UserContextHolder userContextHolder() {
+        return new UserContextHolderImpl();
     }
 }

@@ -2,10 +2,10 @@ package com.deveek.cilicili.web.user.support;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
-import com.deveek.cilicili.web.common.user.UserCacheKey;
-import com.deveek.cilicili.web.common.user.UserConstant;
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 import com.deveek.common.support.ResponseUtil;
+import com.deveek.security.common.constant.SecurityCacheKey;
+import com.deveek.security.common.constant.SecurityConstant;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +38,7 @@ public class GlobalLogoutSuccessHandler implements LogoutSuccessHandler {
         }
         
         // If the access_token is incorrect, deny access directly.
-        JWT accessTokenJwt = JWT.of(accessToken).setKey(UserConstant.ACCESS_TOKEN_KEY);
+        JWT accessTokenJwt = JWT.of(accessToken).setKey(SecurityConstant.ACCESS_TOKEN_KEY);
         if (!accessTokenJwt.verify()) {
             ResponseUtil.write(response, Result.UNAUTHORIZED);
             return;
@@ -52,16 +52,16 @@ public class GlobalLogoutSuccessHandler implements LogoutSuccessHandler {
         
         // If the access_token is inconsistent with the access_token stored in Redis,
         // notify the client to obtain a new access_token.
-        Long userId = Long.valueOf(accessTokenJwt.getPayload(UserConstant.USER_ID).toString());
-        String loginTokenCacheKey = UserCacheKey.ACCESS_TOKEN.getKey(userId);
+        Long userId = Long.valueOf(accessTokenJwt.getPayload(SecurityConstant.USER_ID).toString());
+        String loginTokenCacheKey = SecurityCacheKey.ACCESS_TOKEN.getKey(userId);
         String loginTokenCache = (String) redisTemplate.opsForValue().get(loginTokenCacheKey);
         if (!accessToken.equals(loginTokenCache)) {
             ResponseUtil.write(response, Result.TOKEN_EXPIRED);
             return;
         }
         
-        redisTemplate.delete(UserCacheKey.ACCESS_TOKEN.getKey(userId));
-        redisTemplate.delete(UserCacheKey.REFRESH_TOKEN.getKey(userId));
+        redisTemplate.delete(SecurityCacheKey.ACCESS_TOKEN.getKey(userId));
+        redisTemplate.delete(SecurityCacheKey.REFRESH_TOKEN.getKey(userId));
         ResponseUtil.write(response, Result.SUCCESS);
     }
 }

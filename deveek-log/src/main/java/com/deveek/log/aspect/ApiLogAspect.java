@@ -3,7 +3,7 @@ package com.deveek.log.aspect;
 import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.deveek.common.result.Result;
+import com.deveek.common.constant.Result;
 import com.deveek.common.exception.ServerException;
 import com.deveek.log.constant.ApiLogConstant;
 import com.deveek.log.anno.ApiLog;
