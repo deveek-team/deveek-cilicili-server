@@ -28,9 +28,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-28
+ * @author harvey 
  */
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {

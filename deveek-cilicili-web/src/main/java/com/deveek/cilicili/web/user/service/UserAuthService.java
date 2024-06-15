@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.deveek.cilicili.web.common.user.model.po.UserAuthPo;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-28
+ * @author harvey 
  */
 public interface UserAuthService extends IService<UserAuthPo> {
 }

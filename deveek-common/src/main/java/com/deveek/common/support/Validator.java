@@ -10,9 +10,7 @@ import com.deveek.common.constant.Result;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-28
+ * @author harvey 
  */
 public class Validator {
     public static void check(boolean condition, ExceptionType exceptionType) {

@@ -8,9 +8,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import java.time.LocalDateTime;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-27
+ * @author harvey 
  */
 public class AuditMetaObjectHandler implements MetaObjectHandler {
     @Resource

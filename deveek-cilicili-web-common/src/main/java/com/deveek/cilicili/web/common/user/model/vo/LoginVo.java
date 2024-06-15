@@ -3,9 +3,7 @@ package com.deveek.cilicili.web.common.user.model.vo;
 import lombok.Data;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 @Data
 public class LoginVo {

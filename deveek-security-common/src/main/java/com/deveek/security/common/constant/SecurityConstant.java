@@ -3,9 +3,7 @@ package com.deveek.security.common.constant;
 import cn.hutool.core.date.DateField;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 public class SecurityConstant {
     public static final int ACCESS_TOKEN_TIMEOUT = 1;

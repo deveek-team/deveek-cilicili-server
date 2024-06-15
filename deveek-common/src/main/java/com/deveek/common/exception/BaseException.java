@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

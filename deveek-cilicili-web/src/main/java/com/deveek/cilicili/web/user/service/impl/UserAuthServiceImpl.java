@@ -7,9 +7,7 @@ import com.deveek.cilicili.web.user.service.UserAuthService;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-28
+ * @author harvey 
  */
 @Service
 public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuthPo> implements UserAuthService {

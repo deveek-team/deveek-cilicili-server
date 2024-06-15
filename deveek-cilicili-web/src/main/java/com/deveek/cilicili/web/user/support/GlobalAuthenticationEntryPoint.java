@@ -13,9 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-01
+ * @author harvey
  */
 @Component
 public class GlobalAuthenticationEntryPoint implements AuthenticationEntryPoint {

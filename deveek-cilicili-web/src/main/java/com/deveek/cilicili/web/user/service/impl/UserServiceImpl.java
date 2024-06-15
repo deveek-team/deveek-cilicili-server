@@ -20,9 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserPo> implements UserService {

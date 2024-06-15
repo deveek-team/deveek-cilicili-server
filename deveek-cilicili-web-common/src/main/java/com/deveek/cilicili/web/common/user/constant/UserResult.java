@@ -3,9 +3,7 @@ package com.deveek.cilicili.web.common.user.constant;
 import com.deveek.common.constant.Result;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 public class UserResult extends Result {
     public static final Result LOGIN_FAILURE = new Result(1001, "login failure");

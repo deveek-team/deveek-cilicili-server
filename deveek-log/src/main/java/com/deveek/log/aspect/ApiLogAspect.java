@@ -17,9 +17,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-23
+ * @author harvey 
  */
 @Slf4j
 @Aspect

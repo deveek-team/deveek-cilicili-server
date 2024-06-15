@@ -4,9 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-31
+ * @author harvey 
  */
 @Slf4j
 public class ExceptionLogger {

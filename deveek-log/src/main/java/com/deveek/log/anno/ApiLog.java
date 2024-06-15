@@ -8,9 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-23
+ * @author harvey 
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

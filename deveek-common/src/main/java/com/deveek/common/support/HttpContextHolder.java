@@ -6,9 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-23
+ * @author harvey 
  */
 public class HttpContextHolder {
     public static HttpServletRequest getHttpServletRequest() {

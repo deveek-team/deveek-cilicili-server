@@ -11,9 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-01
+ * @author harvey 
  */
 public class AuthenticationTokenUtil {
     /**

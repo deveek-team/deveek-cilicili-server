@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-01
+ * @author harvey 
  */
 @Component
 public class GlobalAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

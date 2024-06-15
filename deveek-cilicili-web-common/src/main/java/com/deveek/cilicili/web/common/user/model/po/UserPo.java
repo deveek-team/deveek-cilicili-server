@@ -9,9 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 @Data
 @TableName("t_user")

@@ -9,9 +9,7 @@ import java.io.Serial;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-10
+ * @author harvey 
  */
 @Data
 public class UserDetailsDto implements UserDetails {

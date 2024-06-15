@@ -39,4 +39,4 @@ build/
 .DS_Store
 
 ### Project ###
-deveek-cilicili-web/src/main/resources/application.properties
+deveek-cilicili-web/src/main/resources/application-test-secret.properties

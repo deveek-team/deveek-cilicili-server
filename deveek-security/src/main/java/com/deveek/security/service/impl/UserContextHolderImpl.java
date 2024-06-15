@@ -4,9 +4,7 @@ import com.deveek.security.common.model.vo.UserContext;
 import com.deveek.security.common.service.UserContextHolder;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-10
+ * @author harvey 
  */
 public class UserContextHolderImpl implements UserContextHolder {
     private static final ThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new ThreadLocal<>();

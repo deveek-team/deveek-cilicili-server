@@ -3,9 +3,7 @@ package com.deveek.security.common.constant;
 import com.deveek.common.constant.HttpUri;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 public class SecurityHttpUri extends HttpUri {
     public static final String LOGIN = "/api/v1/security/login";

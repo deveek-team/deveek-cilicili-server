@@ -8,9 +8,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 public class ResponseUtil {
     public static <T> void write(HttpServletResponse response, Result<T> result) {

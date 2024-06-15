@@ -3,9 +3,7 @@ package com.deveek.common.exception;
 import com.deveek.common.constant.Result;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 public class RemoteException extends BaseException {
     public RemoteException(int code, String message) {

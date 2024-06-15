@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.deveek.cilicili.web.common.user.model.po.RolePo;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 public interface RoleService extends IService<RolePo> {
 }

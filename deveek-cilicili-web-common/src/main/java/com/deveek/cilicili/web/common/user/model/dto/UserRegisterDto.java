@@ -10,9 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-28
+ * @author harvey 
  */
 @Data
 @NoArgsConstructor

@@ -32,9 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-06-02
+ * @author harvey 
  */
 @RestController
 public class SecurityController {

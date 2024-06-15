@@ -3,9 +3,7 @@ package com.deveek.common.constant;
 import lombok.Getter;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-22
+ * @author harvey 
  */
 @Getter
 public class Result<T> {

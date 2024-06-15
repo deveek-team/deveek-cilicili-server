@@ -3,9 +3,7 @@ package com.deveek.common.constant;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author harvey
- * @Email harveysuen0803@gmail.com
- * @Date 2024-05-24
+ * @author harvey 
  */
 public class CacheKey {
     public String prefix;
