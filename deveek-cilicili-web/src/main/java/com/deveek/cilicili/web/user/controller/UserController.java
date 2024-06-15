@@ -29,7 +29,7 @@ public class UserController {
         return Result.success(userVo);
     }
     
-    @GetMapping("/api/v1/user/v1")
+    @GetMapping("/api/v1/user/mask")
     public Result<UserVo> getUserMask(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
         
