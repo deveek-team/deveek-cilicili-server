@@ -39,4 +39,4 @@ build/
 .DS_Store
 
 ### Project ###
-!**/application.properties
+deveek-cilicili-web/src/main/resources/application.properties
