@@ -5,8 +5,7 @@ import com.deveek.common.constant.CacheKey;
 import java.util.concurrent.TimeUnit;
 
 /**
- 
- 
+ * @author harvey
  */
 public class UserCacheKey extends CacheKey {
     public static final CacheKey LIST = new CacheKey("user:list", 60 * 24 * 7L, TimeUnit.MINUTES);

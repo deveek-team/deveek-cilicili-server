@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author harvey 
  */
 @Data
-@TableName(value ="t_role_auth")
+@TableName("t_role_auth")
 public class RoleAuthPo implements Serializable {
     private Long id;
     

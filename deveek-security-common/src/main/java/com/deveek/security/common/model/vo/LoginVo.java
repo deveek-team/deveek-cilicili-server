@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.common.user.model.vo;
+package com.deveek.security.common.model.vo;
 
 import lombok.Data;
 

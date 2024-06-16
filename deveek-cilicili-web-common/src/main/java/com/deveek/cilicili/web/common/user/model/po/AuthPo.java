@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author harvey 
  */
 @Data
-@TableName(value ="t_auth")
+@TableName("t_auth")
 public class AuthPo implements Serializable {
     private Long id;
 

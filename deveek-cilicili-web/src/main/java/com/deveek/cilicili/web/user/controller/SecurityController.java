@@ -3,10 +3,10 @@ package com.deveek.cilicili.web.user.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
-import com.deveek.cilicili.web.common.user.constant.UserResult;
-import com.deveek.cilicili.web.common.user.model.dto.UserRegisterDto;
+import com.deveek.security.common.constant.SecurityResult;
+import com.deveek.security.common.model.dto.SecurityRegisterDto;
 import com.deveek.cilicili.web.common.user.model.po.UserPo;
-import com.deveek.cilicili.web.common.user.model.vo.UserRefreshTokenVo;
+import com.deveek.security.common.model.vo.RefreshTokenVo;
 import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.common.constant.Result;
 import com.deveek.common.exception.ClientException;
@@ -56,13 +56,13 @@ public class SecurityController {
     
     @Transactional
     @PostMapping(path = SecurityHttpUri.REGISTER, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public Result<Void> register(@ModelAttribute UserRegisterDto userRegisterDto) {
-        boolean isUserExist = userService.isUserExists(userRegisterDto.getUsername(), userRegisterDto.getEmail());
+    public Result<Void> register(@ModelAttribute SecurityRegisterDto securityRegisterDto) {
+        boolean isUserExist = userService.isUserExists(securityRegisterDto.getUsername(), securityRegisterDto.getEmail());
         if (isUserExist) {
-            throw new ClientException(UserResult.USER_NOT_FOUND);
+            throw new ClientException(SecurityResult.USER_EXISTS);
         }
         
-        UserPo userPo = BeanUtil.copyProperties(userRegisterDto, UserPo.class);
+        UserPo userPo = BeanUtil.copyProperties(securityRegisterDto, UserPo.class);
         
         String password = userPo.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
@@ -76,7 +76,7 @@ public class SecurityController {
     }
     
     @PostMapping(path = SecurityHttpUri.REFRESH, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public Result<UserRefreshTokenVo> refreshToken(@RequestParam String refreshToken) {
+    public Result<RefreshTokenVo> refreshToken(@RequestParam String refreshToken) {
         // If the request header does not carry Login Token, deny access directly.
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StrUtil.isBlank(accessToken)) {
@@ -117,9 +117,9 @@ public class SecurityController {
         
         accessToken = userService.buildAccessTokenCache(userId, username, password, authorities);
         
-        UserRefreshTokenVo userRefreshTokenVo = new UserRefreshTokenVo();
-        userRefreshTokenVo.setAccessToken(accessToken);
+        RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
+        refreshTokenVo.setAccessToken(accessToken);
         
-        return Result.success(userRefreshTokenVo);
+        return Result.success(refreshTokenVo);
     }
 }

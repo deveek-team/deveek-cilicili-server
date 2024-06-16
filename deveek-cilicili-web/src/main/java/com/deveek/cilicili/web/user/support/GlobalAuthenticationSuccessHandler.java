@@ -1,6 +1,6 @@
 package com.deveek.cilicili.web.user.support;
 
-import com.deveek.cilicili.web.common.user.model.vo.LoginVo;
+import com.deveek.security.common.model.vo.LoginVo;
 import com.deveek.common.constant.Result;
 import com.deveek.common.support.ResponseUtil;
 import com.deveek.security.common.constant.SecurityCacheKey;

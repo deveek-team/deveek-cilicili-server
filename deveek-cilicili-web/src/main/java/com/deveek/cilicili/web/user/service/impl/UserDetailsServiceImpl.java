@@ -1,7 +1,7 @@
 package com.deveek.cilicili.web.user.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.deveek.cilicili.web.common.user.constant.UserResult;
+import com.deveek.security.common.constant.SecurityResult;
 import com.deveek.cilicili.web.common.user.model.po.*;
 import com.deveek.cilicili.web.user.service.*;
 import com.deveek.common.exception.ClientException;
@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             .eq(UserPo::getUsername, username)
             .one();
         if (userPo == null) {
-            throw new ClientException(UserResult.USER_NOT_FOUND);
+            throw new ClientException(SecurityResult.USER_NOT_FOUND);
         }
         
         UserDetailsDto userDetailsDto = BeanUtil.copyProperties(userPo, UserDetailsDto.class);
