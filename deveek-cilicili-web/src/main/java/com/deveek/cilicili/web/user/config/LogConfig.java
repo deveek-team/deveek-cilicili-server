@@ -1,6 +1,6 @@
 package com.deveek.cilicili.web.user.config;
 
-import com.deveek.log.aspect.ApiLogAspect;
+import com.deveek.common.aspect.ApiLogAspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -13,7 +13,6 @@
         <module>deveek-common</module>
         <module>deveek-cilicili-web</module>
         <module>deveek-cilicili-web-common</module>
-        <module>deveek-log</module>
         <module>deveek-security</module>
         <module>deveek-database</module>
         <module>deveek-cache</module>

@@ -1,12 +1,12 @@
-package com.deveek.log.aspect;
+package com.deveek.common.aspect;
 
 import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import com.deveek.common.anno.ApiLog;
 import com.deveek.common.constant.Result;
 import com.deveek.common.exception.ServerException;
-import com.deveek.log.constant.ApiLogConstant;
-import com.deveek.log.anno.ApiLog;
+import com.deveek.common.constant.ApiLogConstant;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

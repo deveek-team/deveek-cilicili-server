@@ -30,11 +30,6 @@
         </dependency>
         <dependency>
             <groupId>com.deveek</groupId>
-            <artifactId>deveek-log</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.deveek</groupId>
             <artifactId>deveek-cache</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
