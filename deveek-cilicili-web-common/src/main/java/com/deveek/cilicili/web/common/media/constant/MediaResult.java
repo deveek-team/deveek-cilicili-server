@@ -18,6 +18,12 @@ public class MediaResult {
     
     public static final Result FILE_IS_NOT_IMAGE = new Result(3000, "file is not image");
     
+    public static final Result TITLE_INVALID = new Result(3000, "title is invalid");
+    
+    public static final Result THUMBNAIL_URL_INVALID = new Result(3000, "thumbnail url is invalid");
+    
+    public static final Result VIDEO_URL_INVALID = new Result(3000, "video ulr is invalid");
+    
     public static final Result CREATE_TEMP_LOCAL_FILE_FAILURE = new Result(3000, "create local file failure");
     
     public static final Result DELETE_TEMP_LOCAL_FILE_FAILURE = new Result(3000, "delete local file failure");
