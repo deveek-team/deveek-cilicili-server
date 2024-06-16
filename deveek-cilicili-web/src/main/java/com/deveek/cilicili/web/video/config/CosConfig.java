@@ -1,6 +1,6 @@
 package com.deveek.cilicili.web.video.config;
 
-import com.deveek.cilicili.web.video.constant.CosProperties;
+import com.deveek.cilicili.web.common.video.constant.CosProperties;
 import com.deveek.cilicili.web.video.support.CosUtil;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class CosConfig {
-
     @Bean
     @ConditionalOnMissingBean
     public COSClient initCOSClient(CosProperties cosProperties){
@@ -34,12 +33,12 @@ public class CosConfig {
     @ConditionalOnMissingBean
     public CosUtil cosUtil(CosProperties cosProperties){
         return new CosUtil(
-                cosProperties.getSecretId(),
-                cosProperties.getSecretKey(),
-                cosProperties.getRegion(),
-                cosProperties.getUrl(),
-                cosProperties.getBucketName(),
-                initCOSClient(cosProperties));
+            cosProperties.getSecretId(),
+            cosProperties.getSecretKey(),
+            cosProperties.getRegion(),
+            cosProperties.getUrl(),
+            cosProperties.getBucketName(),
+            initCOSClient(cosProperties)
+        );
     }
-
 }
