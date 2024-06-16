@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.user.config;
+package com.deveek.cilicili.web.common.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
