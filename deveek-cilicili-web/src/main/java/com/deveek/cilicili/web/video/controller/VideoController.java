@@ -33,8 +33,6 @@ public class VideoController {
         
         List<VideoPo> videoPoList = videoPoPage.getRecords();
         
-        
-        
         return Result.success();
     }
 }

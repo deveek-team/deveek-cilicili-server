@@ -1,4 +1,4 @@
-package com.deveek.log.constant;
+package com.deveek.common.constant;
 
 /**
  

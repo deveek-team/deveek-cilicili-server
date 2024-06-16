@@ -1,6 +1,6 @@
-package com.deveek.log.anno;
+package com.deveek.common.anno;
 
-import com.deveek.log.constant.ApiLogConstant;
+import com.deveek.common.constant.ApiLogConstant;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
