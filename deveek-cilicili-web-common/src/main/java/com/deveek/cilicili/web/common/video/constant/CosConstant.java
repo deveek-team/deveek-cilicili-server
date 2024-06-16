@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.video.constant;
+package com.deveek.cilicili.web.common.video.constant;
 
 /**
  * @author Shooter

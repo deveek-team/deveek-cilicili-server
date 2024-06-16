@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
-import static com.deveek.cilicili.web.video.constant.CosConstant.*;
+import static com.deveek.cilicili.web.common.video.constant.CosConstant.*;
 
 /**
  * @author Shooter
