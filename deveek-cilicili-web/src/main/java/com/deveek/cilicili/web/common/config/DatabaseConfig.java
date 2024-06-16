@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.user.config;
+package com.deveek.cilicili.web.common.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

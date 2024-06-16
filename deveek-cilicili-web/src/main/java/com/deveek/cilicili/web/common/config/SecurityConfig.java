@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.user.config;
+package com.deveek.cilicili.web.common.config;
 
 import com.deveek.security.common.constant.SecurityHttpUri;
 import com.deveek.security.common.service.UserContextHolder;
