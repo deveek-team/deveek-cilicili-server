@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author harvey 
  */
 @Data
-public class SecurityRegisterDto implements Serializable {
+public class RegisterDto implements Serializable {
     private String username;
     
     private String password;

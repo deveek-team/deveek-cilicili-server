@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
 import com.deveek.security.common.constant.SecurityResult;
-import com.deveek.security.common.model.dto.SecurityRegisterDto;
+import com.deveek.security.common.model.dto.RegisterDto;
 import com.deveek.cilicili.web.common.user.model.po.UserPo;
 import com.deveek.security.common.model.vo.RefreshTokenVo;
 import com.deveek.cilicili.web.user.service.UserService;
@@ -56,13 +56,13 @@ public class SecurityController {
     
     @Transactional
     @PostMapping(path = SecurityHttpUri.REGISTER, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public Result<Void> register(@ModelAttribute SecurityRegisterDto securityRegisterDto) {
-        boolean isUserExist = userService.isUserExists(securityRegisterDto.getUsername(), securityRegisterDto.getEmail());
+    public Result<Void> register(@ModelAttribute RegisterDto registerDto) {
+        boolean isUserExist = userService.isUserExists(registerDto.getUsername(), registerDto.getEmail());
         if (isUserExist) {
             throw new ClientException(SecurityResult.USER_EXISTS);
         }
         
-        UserPo userPo = BeanUtil.copyProperties(securityRegisterDto, UserPo.class);
+        UserPo userPo = BeanUtil.copyProperties(registerDto, UserPo.class);
         
         String password = userPo.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
