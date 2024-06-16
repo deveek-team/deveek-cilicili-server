@@ -2,6 +2,7 @@ package com.deveek.cilicili.web.common.media.model.po;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.*;
@@ -31,14 +32,14 @@ public class VideoPo implements Serializable {
     
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
     
     @TableField(fill = FieldFill.INSERT)
     private Long createBy;
     
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
     
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateBy;
