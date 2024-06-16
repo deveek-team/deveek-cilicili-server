@@ -3,6 +3,7 @@ package com.deveek.cilicili.web.user.config;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,22 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableCaching
 @Configuration
 public class CacheConfig {
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+    
+    @Value("${spring.data.redis.port}")
+    private String redisPort;
+    
+    @Value("${spring.data.redis.database}")
+    private Integer redisDatabase;
+    
+    @Value("${spring.data.redis.username}")
+    private String redisUsername;
+    
+    @Value("${spring.data.redis.password}")
+    private String redisPassword;
+    
+    
     @Bean
     public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate redisTemplate = new RedisTemplate();
@@ -40,9 +57,15 @@ public class CacheConfig {
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
+        
+        String address = String.format("redis://%s:%s", redisHost, redisPort);
+        
         config.useSingleServer()
-            .setAddress("redis://127.0.0.1:6379")
-            .setPassword("111");
+            .setAddress(address)
+            .setDatabase(redisDatabase)
+            .setUsername(redisUsername)
+            .setPassword(redisPassword);
+        
         return Redisson.create(config);
     }
     
