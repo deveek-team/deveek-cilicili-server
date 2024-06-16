@@ -28,4 +28,8 @@ public interface UserService extends IService<UserPo> {
     boolean isUsernameExists(String username);
     
     boolean isEmailExists(String email);
+
+    void sendCode(String username, String email);
+
+    void register(String username, String password, String email, String verifyCode);
 }
