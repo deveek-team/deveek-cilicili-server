@@ -72,7 +72,7 @@ public class SecurityController {
         return Result.success();
     }
     
-    @PostMapping(path = SecurityHttpUri.REFRESH, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(path = SecurityHttpUri.REFRESH_TOKEN, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Result<RefreshTokenVo> refreshToken(@RequestParam String refreshToken) {
         // If the request header does not carry Login Token, deny access directly.
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);

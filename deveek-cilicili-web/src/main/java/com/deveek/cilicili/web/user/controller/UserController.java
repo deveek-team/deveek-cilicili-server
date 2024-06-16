@@ -20,14 +20,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/api/v1/user")
+    @GetMapping("/api/v1/user/get_user")
     public Result<UserVo> getUser(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
         
         return Result.success(userVo);
     }
     
-    @GetMapping("/api/v1/user/mask")
+    @GetMapping("/api/v1/user/get_user_mask")
     public Result<UserVo> getUserMask(@RequestParam String username) {
         UserVo userVo = userService.getUserVo(username);
         
