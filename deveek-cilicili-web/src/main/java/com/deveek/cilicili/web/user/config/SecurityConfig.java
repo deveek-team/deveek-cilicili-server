@@ -45,7 +45,7 @@ public class SecurityConfig {
         httpSecurity.cors(AbstractHttpConfigurer::disable);
         
         httpSecurity.authorizeHttpRequests((authorize) -> {
-            authorize.requestMatchers(SecurityHttpUri.LOGIN, SecurityHttpUri.LOGOUT, SecurityHttpUri.REGISTER, SecurityHttpUri.REFRESH).permitAll()
+            authorize.requestMatchers(SecurityHttpUri.LOGIN, SecurityHttpUri.LOGOUT, SecurityHttpUri.REGISTER, SecurityHttpUri.REFRESH_TOKEN).permitAll()
                 .anyRequest().authenticated();
         });
         

@@ -42,7 +42,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // If the request is login, then skip the filter.
         String requestUri = request.getRequestURI();
-        if (StrUtil.equals(requestUri, SecurityHttpUri.LOGIN) || StrUtil.equals(requestUri, SecurityHttpUri.REFRESH)) {
+        if (StrUtil.equals(requestUri, SecurityHttpUri.LOGIN) || StrUtil.equals(requestUri, SecurityHttpUri.REFRESH_TOKEN)) {
             filterChain.doFilter(request, response);
             return;
         }
