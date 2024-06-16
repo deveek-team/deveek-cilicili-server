@@ -22,24 +22,19 @@ public class RegisterDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     
-    public void setUsername(String username) {
+    public RegisterDto(String username, String password, String email) {
         if (StrUtil.isBlank(username)) {
             throw new ClientException(SecurityResult.USERNAME_INVALID);
         }
-        this.username = username;
-    }
-    
-    public void setPassword(String password) {
         if (StrUtil.isBlank(password)) {
             throw new ClientException(SecurityResult.PASSWORD_INVALID);
         }
-        this.password = password;
-    }
-    
-    public void setEmail(String email) {
         if (StrUtil.isBlank(email)) {
             throw new ClientException(SecurityResult.EMAIL_INVALID);
         }
+        
+        this.username = username;
+        this.password = password;
         this.email = email;
     }
 }

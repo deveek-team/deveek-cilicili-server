@@ -3,12 +3,12 @@ package com.deveek.common.exception;
 import com.deveek.common.constant.Result;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * @author harvey 
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
 public class BaseException extends RuntimeException {
     private final int code;
     
