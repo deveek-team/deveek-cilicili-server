@@ -13,11 +13,11 @@ import java.io.Serializable;
  */
 @Data
 public class RegisterDto implements Serializable {
-    private String username;
+    private final String username;
     
-    private String password;
+    private final String password;
     
-    private String email;
+    private final String email;
     
     @Serial
     private static final long serialVersionUID = 1L;

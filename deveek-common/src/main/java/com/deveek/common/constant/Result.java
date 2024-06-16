@@ -85,8 +85,4 @@ public class Result<T> {
     public static final Result SERVICE_UNAVAILABLE = new Result(503, "service unavailable");
     
     public static final Result GATEWAY_TIMEOUT = new Result(504, "gateway timeout");
-    
-    public static final Result USER_NOT_FOUND = new Result(601, "user not found");
-    
-    public static final Result PARAM_INVALID = new Result(602, "param invalid");
 }
