@@ -46,7 +46,7 @@ public class CosServiceImpl implements CosService {
         String fileExtension = getFileExtension(originalFilename);
         UUID uuidSuffix = UUID.randomUUID();
         
-        String fileName = String.format("/%s/%s_%s.%s", dirname, baseFileName, uuidSuffix, fileExtension);
+        String fileUri = String.format("/%s/%s_%s.%s", dirname, baseFileName, uuidSuffix, fileExtension);
         
         File localFile;
         try {
@@ -61,7 +61,7 @@ public class CosServiceImpl implements CosService {
             throw new RuntimeException(e);
         }
         
-        PutObjectRequest putObjectRequest = new PutObjectRequest(cosProperties.getBucketName(), fileName, localFile);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(cosProperties.getBucketName(), fileUri, localFile);
         
         PutObjectResult putObjectResult;
         try {
@@ -77,12 +77,12 @@ public class CosServiceImpl implements CosService {
             throw new ClientException(MediaResult.UPLOAD_FAILURE);
         }
         
-        return genFileUrl(fileName);
+        return getFileUrl(fileUri);
     }
     
     @Override
-    public String genFileUrl(String fileName) {
-        return String.format("https://%s.cos.%s.myqcloud.com/%s", cosProperties.getBucketName(), cosProperties.getRegion(), fileName);
+    public String getFileUrl(String fileUri) {
+        return String.format("https://%s.cos.%s.myqcloud.com/%s", cosProperties.getBucketName(), cosProperties.getRegion(), fileUri);
     }
     
     private String getFileExtension(String filename) {
