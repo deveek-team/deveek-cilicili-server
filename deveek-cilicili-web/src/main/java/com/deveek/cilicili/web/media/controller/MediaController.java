@@ -73,8 +73,7 @@ public class MediaController {
         
         long totalSize = videoPoPage.getTotal();
         
-        List<TopVideoVo> topVideoVoList = videoPoList.stream()
-            .toList();
+        List<TopVideoVo> topVideoVoList = BeanUtil.copyToList(videoPoList, TopVideoVo.class);
         
         TopVideoPageVo topVideoPageVo = new TopVideoPageVo();
         topVideoPageVo.setTopVideoVoList(topVideoVoList);
