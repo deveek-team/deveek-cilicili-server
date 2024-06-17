@@ -18,6 +18,8 @@ public class MediaResult {
     
     public static final Result FILE_IS_NOT_IMAGE = new Result(3000, "file is not image");
     
+    public static final Result VIDEO_ID_INVALID = new Result(3000, "video id is invalid");
+    
     public static final Result TITLE_INVALID = new Result(3000, "title is invalid");
     
     public static final Result THUMBNAIL_URL_INVALID = new Result(3000, "thumbnail url is invalid");

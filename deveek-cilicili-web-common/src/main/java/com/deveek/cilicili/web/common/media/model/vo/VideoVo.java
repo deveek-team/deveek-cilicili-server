@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author harvey
  */
 @Data
-public class TopVideoVo implements Serializable {
+public class VideoVo implements Serializable {
     private Long id;
     
     private String title;

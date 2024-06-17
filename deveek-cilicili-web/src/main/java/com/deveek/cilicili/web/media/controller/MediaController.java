@@ -3,13 +3,10 @@ package com.deveek.cilicili.web.media.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.deveek.cilicili.web.common.media.constant.FileType;
-import com.deveek.cilicili.web.common.media.model.dto.ImageUploadDto;
-import com.deveek.cilicili.web.common.media.model.dto.TopVideoPageDto;
-import com.deveek.cilicili.web.common.media.model.dto.VideoAddDto;
-import com.deveek.cilicili.web.common.media.model.dto.VideoUploadDto;
-import com.deveek.cilicili.web.common.media.model.po.TopVideoPageVo;
+import com.deveek.cilicili.web.common.media.model.dto.*;
+import com.deveek.cilicili.web.common.media.model.po.VideoPageVo;
 import com.deveek.cilicili.web.common.media.model.po.VideoPo;
-import com.deveek.cilicili.web.common.media.model.vo.TopVideoVo;
+import com.deveek.cilicili.web.common.media.model.vo.VideoVo;
 import com.deveek.cilicili.web.media.service.CosService;
 import com.deveek.cilicili.web.media.service.VideoService;
 import com.deveek.common.constant.Result;
@@ -50,8 +47,30 @@ public class MediaController {
         return Result.success();
     }
     
+    @GetMapping("/api/v1/media/get_video")
+    public Result<VideoVo> getVideo(@ModelAttribute VideoGetDto videoGetDto) {
+        Long id = videoGetDto.getId();
+        
+        VideoPo videoPo = videoService.lambdaQuery()
+            .select(
+                VideoPo::getId,
+                VideoPo::getTitle,
+                VideoPo::getDescription,
+                VideoPo::getThumbnailUrl,
+                VideoPo::getVideoUrl,
+                VideoPo::getViewCount,
+                VideoPo::getLikeCount
+            )
+            .eq(VideoPo::getId, id)
+            .one();
+        
+        VideoVo videoVo = BeanUtil.copyProperties(videoPo, VideoVo.class);
+        
+        return Result.success(videoVo);
+    }
+    
     @GetMapping("/api/v1/media/page_top_video")
-    public Result<TopVideoPageVo> pageTopVideo(@ModelAttribute TopVideoPageDto topVideoPageDto) {
+    public Result<VideoPageVo> pageVideo(@ModelAttribute TopVideoPageDto topVideoPageDto) {
         Integer pageNo = topVideoPageDto.getPageNo();
         Integer pageSize = topVideoPageDto.getPageSize();
         
@@ -73,13 +92,13 @@ public class MediaController {
         
         long totalSize = videoPoPage.getTotal();
         
-        List<TopVideoVo> topVideoVoList = BeanUtil.copyToList(videoPoList, TopVideoVo.class);
+        List<VideoVo> videoVoList = BeanUtil.copyToList(videoPoList, VideoVo.class);
         
-        TopVideoPageVo topVideoPageVo = new TopVideoPageVo();
-        topVideoPageVo.setTopVideoVoList(topVideoVoList);
-        topVideoPageVo.setTotalSize(totalSize);
+        VideoPageVo videoPageVo = new VideoPageVo();
+        videoPageVo.setVideoVoList(videoVoList);
+        videoPageVo.setTotalSize(totalSize);
         
-        return Result.success(topVideoPageVo);
+        return Result.success(videoPageVo);
     }
     
     @PreAuthorize("hasAuthority('MEDIA_W')")
