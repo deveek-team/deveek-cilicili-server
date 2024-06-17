@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CosService {
     String uploadFile(MultipartFile file, String dir);
 
-    String genFileUrl(String fileName);
+    String getFileUrl(String fileName);
 }
