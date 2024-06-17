@@ -1,6 +1,6 @@
 package com.deveek.cilicili.web.common.media.model.po;
 
-import com.deveek.cilicili.web.common.media.model.vo.TopVideoVo;
+import com.deveek.cilicili.web.common.media.model.vo.VideoVo;
 import lombok.Data;
 
 import java.io.Serial;
@@ -11,8 +11,8 @@ import java.util.List;
  * @author harvey
  */
 @Data
-public class TopVideoPageVo implements Serializable {
-    private List<TopVideoVo> topVideoVoList;
+public class VideoPageVo implements Serializable {
+    private List<VideoVo> videoVoList;
     
     private Long totalSize;
     
