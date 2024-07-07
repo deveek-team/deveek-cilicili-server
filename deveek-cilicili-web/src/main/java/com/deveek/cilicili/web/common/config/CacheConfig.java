@@ -1,5 +1,7 @@
 package com.deveek.cilicili.web.common.config;
 
+import com.deveek.cache.bloomfilter.BloomFilterCheckAspect;
+import com.deveek.cache.bloomfilter.BloomFilterFactory;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -82,5 +84,15 @@ public class CacheConfig {
             .cacheWriter(redisCacheWriter)
             .cacheDefaults(redisCacheConfiguration)
             .build();
+    }
+
+    @Bean
+    public BloomFilterCheckAspect bloomFilterCheckAspect(){
+        return new BloomFilterCheckAspect();
+    }
+
+    @Bean
+    public BloomFilterFactory bloomFilterFactory(){
+        return new BloomFilterFactory();
     }
 }
