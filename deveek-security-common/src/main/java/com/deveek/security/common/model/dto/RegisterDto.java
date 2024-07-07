@@ -18,11 +18,13 @@ public class RegisterDto implements Serializable {
     private final String password;
     
     private final String email;
+
+    private String verifyCode;
     
     @Serial
     private static final long serialVersionUID = 1L;
     
-    public RegisterDto(String username, String password, String email) {
+    public RegisterDto(String username, String password, String email, String verifyCode) {
         if (StrUtil.isBlank(username)) {
             throw new ClientException(SecurityResult.USERNAME_INVALID);
         }
@@ -32,9 +34,13 @@ public class RegisterDto implements Serializable {
         if (StrUtil.isBlank(email)) {
             throw new ClientException(SecurityResult.EMAIL_INVALID);
         }
+        if (StrUtil.isBlank(verifyCode)) {
+            throw new ClientException(SecurityResult.CODE_INVALID);
+        }
         
         this.username = username;
         this.password = password;
         this.email = email;
+        this.verifyCode = verifyCode;
     }
 }

@@ -1,14 +1,13 @@
 package com.deveek.cilicili.web.user.controller;
 
+import com.deveek.cilicili.web.common.user.model.dto.UserSendCodeDto;
 import com.deveek.cilicili.web.common.user.model.vo.UserVo;
 import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.common.constant.Result;
 import jakarta.annotation.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author harvey 
@@ -34,5 +33,14 @@ public class UserController {
         userVo.mask();
         
         return Result.success(userVo);
+    }
+
+    @PostMapping("/api/v1/user/code")
+    public Result<Void> sendCode(@RequestBody UserSendCodeDto userSendCodeDto) {
+        String username = userSendCodeDto.getUsername();
+        String email = userSendCodeDto.getEmail();
+        userService.sendCode(username, email);
+
+        return Result.success();
     }
 }
