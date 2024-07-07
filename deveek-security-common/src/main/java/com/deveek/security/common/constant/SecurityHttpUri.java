@@ -13,4 +13,6 @@ public class SecurityHttpUri extends HttpUri {
     public static final String REFRESH_TOKEN = "/api/v1/security/refresh_token";
     
     public static final String REGISTER = "/api/v1/security/register";
+    
+    public static final String SEND_EMAIL_VERIFY_CODE = "/api/v1/security/send_email_verify_code";
 }

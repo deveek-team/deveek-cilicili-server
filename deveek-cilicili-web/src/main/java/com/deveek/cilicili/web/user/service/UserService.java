@@ -3,6 +3,7 @@ package com.deveek.cilicili.web.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.deveek.cilicili.web.common.user.model.po.UserPo;
 import com.deveek.cilicili.web.common.user.model.vo.UserVo;
+import com.deveek.security.common.model.dto.RegisterDto;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -29,7 +30,7 @@ public interface UserService extends IService<UserPo> {
     
     boolean isEmailExists(String email);
 
-    void sendCode(String username, String email);
+    void sendEmailVerifyCode(String username, String email);
 
-    void register(String username, String password, String email, String verifyCode);
+    void register(RegisterDto registerDto);
 }

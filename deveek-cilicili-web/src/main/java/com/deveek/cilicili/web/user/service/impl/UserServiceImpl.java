@@ -1,7 +1,6 @@
 package com.deveek.cilicili.web.user.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,19 +9,23 @@ import com.deveek.cilicili.web.common.user.constant.UserResult;
 import com.deveek.cilicili.web.common.user.model.po.UserPo;
 import com.deveek.cilicili.web.common.user.model.vo.UserVo;
 import com.deveek.cilicili.web.user.mapper.UserMapper;
+import com.deveek.cilicili.web.user.service.MailService;
 import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.common.constant.Constant;
-import com.deveek.common.constant.EmailConstant;
 import com.deveek.common.exception.ClientException;
-import com.deveek.common.support.SendMailUtil;
+import com.deveek.common.support.Validator;
 import com.deveek.security.common.constant.SecurityCacheKey;
+import com.deveek.security.common.constant.SecurityConstant;
 import com.deveek.security.common.constant.SecurityResult;
+import com.deveek.security.common.model.dto.RegisterDto;
 import com.deveek.security.support.AuthenticationTokenUtil;
 import jakarta.annotation.Resource;
+import org.redisson.api.RBloomFilter;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -35,10 +38,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPo> implements 
     private RedisTemplate redisTemplate;
 
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
+    private MailService mailService;
+    
+    @Resource(name = "userBloomFilter")
+    private RBloomFilter userBloomFilter;
+    
     @Resource
-    private SendMailUtil sendMailUtil;
+    private PasswordEncoder passwordEncoder;
     
     @Override
     public String buildAccessTokenCache(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
@@ -108,8 +114,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPo> implements 
     }
 
     @Override
-    public void sendCode(String username, String email) {
-        if (isNotEmail(email)) {
+    public void sendEmailVerifyCode(String username, String email) {
+        if (Validator.isNotEmail(email)) {
             throw new ClientException(SecurityResult.EMAIL_INVALID);
         }
 
@@ -118,39 +124,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPo> implements 
             throw new ClientException(SecurityResult.USER_EXISTS);
         }
 
-        String code = RandomUtil.randomNumbers(6);
-        sendMailUtil.sendSimpleMail(EmailConstant.MESSAGE_HEADER, code, EmailConstant.SENDER, email);
+        String verifyCode = RandomUtil.randomNumbers(6);
+        mailService.sendVerifyCode(verifyCode, email);
 
-        String key = UserCacheKey.EMAIL_CODE.getKey(email, code);
-        stringRedisTemplate.opsForValue().set(key, code, UserCacheKey.EMAIL_CODE.timeout, UserCacheKey.EMAIL_CODE.unit);
+        String verifyCodeKey = UserCacheKey.EMAIL_VERIFY_CODE.getKey(email, verifyCode);
+        redisTemplate.opsForValue().set(verifyCodeKey, verifyCode, UserCacheKey.EMAIL_VERIFY_CODE.timeout, UserCacheKey.EMAIL_VERIFY_CODE.unit);
     }
 
+    @Transactional
     @Override
-    public void register(String username, String password, String email, String verifyCode) {
-        if (isNotEmail(email)) {
-            throw new ClientException(SecurityResult.EMAIL_INVALID);
-        }
-
-        boolean isUserExist = isUserExists(username, verifyCode);
+    public void register(RegisterDto registerDto) {
+        String username = registerDto.getUsername();
+        String password = registerDto.getPassword();
+        String email = registerDto.getEmail();
+        String emailVerifyCode = registerDto.getVerifyCode();
+        
+        boolean isUserExist = isUserExists(username, email);
         if (isUserExist) {
             throw new ClientException(SecurityResult.USER_EXISTS);
         }
 
-        String key = UserCacheKey.EMAIL_CODE.getKey(email, verifyCode);
-        if (isNotKeyExist(key)) {
-            throw new ClientException(SecurityResult.CODE_INVALID);
+        String emailVerifyCodeKey = UserCacheKey.EMAIL_VERIFY_CODE.getKey(email, emailVerifyCode);
+        Boolean isDeleted = redisTemplate.delete(emailVerifyCodeKey);
+        if (Boolean.FALSE.equals(isDeleted)) {
+            throw new ClientException(SecurityResult.VERIFY_CODE_INVALID);
         }
-    }
-
-    private Boolean isKeyExist(String key) {
-        return stringRedisTemplate.delete(key);
-    }
-
-    private Boolean isNotKeyExist(String key) {
-        return !isKeyExist(key);
-    }
-
-    private Boolean isNotEmail(String email) {
-        return !Validator.isEmail(email);
+        
+        UserPo userPo = BeanUtil.copyProperties(registerDto, UserPo.class);
+        userPo.setPassword(passwordEncoder.encode(password));
+        userPo.setAccountExpiredFlag(SecurityConstant.ACCOUNT_NOT_EXPIRED);
+        userPo.setCredentialsExpiredFlag(SecurityConstant.CREDENTIALS_NOT_EXPIRED);
+        userPo.setAccountLockedFlag(SecurityConstant.ACCOUNT_NOT_LOCKED);
+        userPo.setUpdateBy(SecurityConstant.ADMIN_ID);
+        userPo.setCreateBy(SecurityConstant.ADMIN_ID);
+        
+        saveOrUpdate(userPo);
+        
+        userBloomFilter.add(userPo.getId());
     }
 }
