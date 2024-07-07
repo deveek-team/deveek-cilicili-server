@@ -5,8 +5,8 @@ import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.deveek.cilicili.web.common.bloomfilter.BloomFilterConstant.BLOOM_FILTER_USER_ID;
-import static com.deveek.cilicili.web.common.bloomfilter.BloomFilterConstant.BLOOM_FILTER_USERNAME;
+import static com.deveek.cilicili.web.common.user.constant.BloomFilterConstant.BLOOM_FILTER_USER_ID;
+import static com.deveek.cilicili.web.common.user.constant.BloomFilterConstant.BLOOM_FILTER_USERNAME;
 
 /**
  * @author harvey 

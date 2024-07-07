@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.common.bloomfilter;
+package com.deveek.cache.bloomfilter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author Shooter
  * 布隆过滤器查询注解
+ * @author Shooter
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

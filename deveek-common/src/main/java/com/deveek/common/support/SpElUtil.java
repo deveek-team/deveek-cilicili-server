@@ -30,10 +30,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * @author Shooter
  * SpEL 表达式解析工具
+ * @author Shooter
  */
-public class SpELUtil {
+public class SpElUtil {
 
     /**
      * 校验并返回实际使用的 spEL 表达式

@@ -1,4 +1,4 @@
-package com.deveek.cilicili.web.common.bloomfilter;
+package com.deveek.cache.bloomfilter;
 
 import com.deveek.common.constant.Result;
 import com.deveek.common.exception.ClientException;
@@ -8,18 +8,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author Shooter
  * 布隆过滤器工厂
+ * @author Shooter
  */
 @Slf4j
-@Component
 public class BloomFilterFactory implements InitializingBean, ApplicationContextAware {
     private static final Map<String, RBloomFilter> BLOOM_FILTER_MAP = new ConcurrentHashMap<>();
     private ApplicationContext context;
