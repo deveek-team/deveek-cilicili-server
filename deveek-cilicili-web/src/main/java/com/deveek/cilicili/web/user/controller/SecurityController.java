@@ -1,29 +1,28 @@
 package com.deveek.cilicili.web.user.controller;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
-import com.deveek.security.common.model.dto.RegisterDto;
-import com.deveek.cilicili.web.common.user.model.po.UserPo;
-import com.deveek.security.common.model.vo.RefreshTokenVo;
+import com.deveek.cilicili.web.common.user.model.dto.UserSendEmailVerifyCodeDto;
 import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.common.constant.Result;
 import com.deveek.common.exception.ClientException;
 import com.deveek.security.common.constant.SecurityCacheKey;
 import com.deveek.security.common.constant.SecurityConstant;
 import com.deveek.security.common.constant.SecurityHttpUri;
+import com.deveek.security.common.model.dto.RegisterDto;
+import com.deveek.security.common.model.vo.RefreshTokenVo;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.redisson.api.RBloomFilter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
@@ -39,36 +38,23 @@ public class SecurityController {
     private UserDetailsService userDetailsService;
     
     @Resource
-    private PasswordEncoder passwordEncoder;
-    
-    @Resource
     private HttpServletRequest request;
     
     @Resource
     private RedisTemplate redisTemplate;
     
-    @Resource(name = "userBloomFilter")
-    private RBloomFilter userBloomFilter;
-    
-    @Transactional
     @PostMapping(path = SecurityHttpUri.REGISTER, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Result<Void> register(@ModelAttribute RegisterDto registerDto) {
-        String email = registerDto.getEmail();
-        String username = registerDto.getUsername();
-        String password = registerDto.getPassword();
-        String verifyCode = registerDto.getVerifyCode();
-
-        userService.register(username,password,email,verifyCode);
+        userService.register(registerDto);
         
-        UserPo userPo = BeanUtil.copyProperties(registerDto, UserPo.class);
-        
-        password = userPo.getPassword();
-        String encodedPassword = passwordEncoder.encode(password);
-        userPo.setPassword(encodedPassword);
-        
-        userService.saveOrUpdate(userPo);
-        
-        userBloomFilter.add(userPo.getId());
+        return Result.success();
+    }
+    
+    @PostMapping(path = SecurityHttpUri.SEND_EMAIL_VERIFY_CODE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public Result<Void> sendEmailVerifyCode(@ModelAttribute UserSendEmailVerifyCodeDto userSendEmailVerifyCodeDto) {
+        String username = userSendEmailVerifyCodeDto.getUsername();
+        String email = userSendEmailVerifyCodeDto.getEmail();
+        userService.sendEmailVerifyCode(username, email);
         
         return Result.success();
     }

@@ -22,5 +22,5 @@ public class SecurityResult extends Result {
     
     public static final Result USER_EXISTS = new Result(1205, "user already exist");
 
-    public static final Result CODE_INVALID = new Result(1206, "code is invalid");
+    public static final Result VERIFY_CODE_INVALID = new Result(1206, "verify code is invalid");
 }

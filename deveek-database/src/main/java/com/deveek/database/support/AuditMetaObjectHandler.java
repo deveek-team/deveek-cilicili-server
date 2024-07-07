@@ -16,12 +16,21 @@ public class AuditMetaObjectHandler implements MetaObjectHandler {
     
     @Override
     public void insertFill(MetaObject metaObject) {
-        Long userId = userContextHolder.getUserId();
+        if (metaObject.getValue("createTime") == null) {
+            strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
+        }
         
-        strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-        strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
-        strictInsertFill(metaObject, "createBy", Long.class, userId);
-        strictInsertFill(metaObject, "updateBy", Long.class, userId);
+        if (metaObject.getValue("updateTime") == null) {
+            strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
+        }
+        
+        if (metaObject.getValue("createBy") == null) {
+            strictInsertFill(metaObject, "createBy", Long.class, userContextHolder.getUserId());
+        }
+        
+        if (metaObject.getValue("updateBy") == null) {
+            strictInsertFill(metaObject, "createBy", Long.class, userContextHolder.getUserId());
+        }
     }
     
     @Override

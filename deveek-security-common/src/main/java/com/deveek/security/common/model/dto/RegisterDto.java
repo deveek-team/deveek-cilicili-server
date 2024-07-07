@@ -2,6 +2,7 @@ package com.deveek.security.common.model.dto;
 
 import cn.hutool.core.util.StrUtil;
 import com.deveek.common.exception.ClientException;
+import com.deveek.common.support.Validator;
 import com.deveek.security.common.constant.SecurityResult;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class RegisterDto implements Serializable {
     
     private final String email;
 
-    private String verifyCode;
+    private final String verifyCode;
     
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,11 +32,11 @@ public class RegisterDto implements Serializable {
         if (StrUtil.isBlank(password)) {
             throw new ClientException(SecurityResult.PASSWORD_INVALID);
         }
-        if (StrUtil.isBlank(email)) {
+        if (Validator.isNotEmail(email)) {
             throw new ClientException(SecurityResult.EMAIL_INVALID);
         }
         if (StrUtil.isBlank(verifyCode)) {
-            throw new ClientException(SecurityResult.CODE_INVALID);
+            throw new ClientException(SecurityResult.VERIFY_CODE_INVALID);
         }
         
         this.username = username;

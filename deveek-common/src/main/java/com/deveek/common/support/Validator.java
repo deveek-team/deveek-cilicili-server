@@ -104,4 +104,12 @@ public class Validator {
         
         throw ExceptionFactory.getException(exceptionType, result);
     }
+    
+    public static boolean isEmail(String mail) {
+        return cn.hutool.core.lang.Validator.isEmail(mail);
+    }
+    
+    public static boolean isNotEmail(String mail) {
+        return !isEmail(mail);
+    }
 }
