@@ -7,7 +7,7 @@ import com.deveek.cilicili.web.common.user.constant.UserResult;
 import com.deveek.cilicili.web.common.user.model.po.UserPo;
 import com.deveek.cilicili.web.common.user.model.vo.UserVo;
 import com.deveek.cilicili.web.user.mapper.UserMapper;
-import com.deveek.cilicili.web.user.service.*;
+import com.deveek.cilicili.web.user.service.UserService;
 import com.deveek.common.constant.Constant;
 import com.deveek.common.exception.ClientException;
 import com.deveek.security.common.constant.SecurityCacheKey;
@@ -24,18 +24,6 @@ import java.util.Collection;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserPo> implements UserService {
-    @Resource
-    private AuthService authService;
-    
-    @Resource
-    private UserRoleService userRoleService;
-    
-    @Resource
-    private UserAuthService userAuthService;
-    
-    @Resource
-    private RoleAuthService roleAuthService;
-    
     @Resource
     private RedisTemplate redisTemplate;
     
