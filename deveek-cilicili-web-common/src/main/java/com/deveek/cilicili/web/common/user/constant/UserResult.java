@@ -13,4 +13,8 @@ public class UserResult {
     public static final Result PASSWORD_INVALID = new Result(2203, "password is invalid");
     
     public static final Result EMAIL_INVALID = new Result(2204, "email is invalid");
+
+    public static final Result USER_EXISTS = new Result(1205, "user already exist");
+
+    public static final Result CODE_INVALID = new Result(1206, "code is invalid");
 }
