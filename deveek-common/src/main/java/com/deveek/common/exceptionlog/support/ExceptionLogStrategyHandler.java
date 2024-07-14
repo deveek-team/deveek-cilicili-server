@@ -1,6 +1,7 @@
 package com.deveek.common.exceptionlog.support;
 
 import com.deveek.common.exceptionlog.strategy.ExceptionLogStrategy;
+import org.slf4j.Logger;
 
 /**
  * @author banne
@@ -12,11 +13,11 @@ public class ExceptionLogStrategyHandler {
         this.context = context;
     }
 
-    public void handleStrategyException(Exception e) {
-        ExceptionLogStrategy strategy = context.getExceptionStrategy();
+    public void handleStrategyException() {
+        ExceptionLogStrategy strategy = context.getExceptionLogStrategy();
 
         if (strategy != null) {
-            strategy.logException(e);
+            strategy.logException(context);
         } else {
             throw new IllegalStateException("ExceptionStrategy not set");
         }

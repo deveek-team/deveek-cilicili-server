@@ -1,35 +1,41 @@
 package com.deveek.common.exceptionlog.strategy.imp;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.deveek.common.constant.LogFormatConstant;
 import com.deveek.common.exception.BaseException;
-import com.deveek.common.exceptionlog.strategy.ExceptionLogStrategy;
-import com.deveek.common.exceptionlog.support.ExceptionLogUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
+import com.deveek.common.exceptionlog.strategy.ExceptionDetails;
+import com.deveek.common.exceptionlog.strategy.template.BaseExceptionLogStrategy;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author banne
  */
-public class CiliCiliExceptionLogStrategy implements ExceptionLogStrategy {
-    @Override
-    public void logException(Exception e) {
-        // 获取调用者的日志器
-        Logger logger = ExceptionLogUtil.getCallerLogger();
-        HttpServletRequest request = ExceptionLogUtil.getRequest();
+public class CiliCiliExceptionLogStrategy extends BaseExceptionLogStrategy {
 
+    @Override
+    protected String formatLogMessage(String className, String requestIp, int requestPort, String requestUri, String requestType, Exception e) {
         BaseException customException = (BaseException) e;
 
-        String className = customException.getClass().getSimpleName().toLowerCase().replaceAll("(?i)(?=exception)", " ");
+        int exceptionCode = customException.getCode();
+        ExceptionDetails exceptionDetails = handleExceptionInformation(customException);
 
-        String requestIp = request.getRemoteAddr();
-        int requestPort = request.getServerPort();
-        String requestUri = request.getRequestURI();
-        String requestType = request.getMethod();
+        Throwable exceptionCause = customException.getCause();
+        if (ObjectUtil.isNotEmpty(exceptionCause)) {
+            ExceptionDetails causeExceptionDetails = handleExceptionInformation(exceptionCause);
 
+            return String.format(LogFormatConstant.CILICILI_CUSTOM_EXCEPTION_LOG_EXIST_CAUSE_FORMAT, className, requestIp, requestPort, requestUri, requestType,
+                    customException.getClass(), exceptionCode,
+                    exceptionDetails.getMessage(), causeExceptionDetails.getMessage(),
+                    exceptionDetails.getStackTrace(), causeExceptionDetails.getStackTrace(),
+                    causeExceptionDetails.getSuppressed(), exceptionDetails.getSuppressed()
+            );
+        }
 
-        String logMessage = String.format(LogFormatConstant.CILICILI_CUSTOM_EXCEPTION_LOG_FORMAT, className, requestIp, requestPort, requestUri, requestType,
-                customException.getClass(), customException.getCode(), customException.getMessage());
-
-        logger.error("{}", logMessage);
+        return String.format(LogFormatConstant.CILICILI_CUSTOM_EXCEPTION_LOG_FORMAT, className, requestIp, requestPort, requestUri, requestType,
+                customException.getClass(), exceptionCode,
+                exceptionDetails.getMessage(), exceptionDetails.getStackTrace(), exceptionDetails.getSuppressed()
+        );
     }
 }

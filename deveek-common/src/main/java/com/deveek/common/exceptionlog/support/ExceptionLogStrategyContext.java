@@ -1,20 +1,19 @@
 package com.deveek.common.exceptionlog.support;
 
 import com.deveek.common.exceptionlog.strategy.ExceptionLogStrategy;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.slf4j.Logger;
 
 /**
  * @author banne
  */
+@Data
+@AllArgsConstructor
 public class ExceptionLogStrategyContext {
-    private ExceptionLogStrategy strategy;
+    private Logger logger;
 
-    // 设置策略
-    public void setExceptionStrategy(ExceptionLogStrategy strategy){
-        this.strategy = strategy;
-    }
+    private Exception exception;
 
-    // 获取策略
-    public ExceptionLogStrategy getExceptionStrategy(){
-        return strategy;
-    }
+    private ExceptionLogStrategy exceptionLogStrategy;
 }
