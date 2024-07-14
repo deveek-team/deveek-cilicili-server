@@ -1,5 +1,6 @@
 package com.deveek.common.exceptionlog.strategy.template;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.deveek.common.exceptionlog.strategy.ExceptionDetails;
 import com.deveek.common.exceptionlog.strategy.ExceptionLogStrategy;
 import com.deveek.common.exceptionlog.support.ExceptionLogStrategyContext;
@@ -20,7 +21,10 @@ public abstract class BaseExceptionLogStrategy implements ExceptionLogStrategy {
         Logger logger = exceptionLogStrategyContext.getLogger();
         Exception exception = exceptionLogStrategyContext.getException();
         HttpServletRequest request = HttpContextHolder.getHttpServletRequest();
-
+        if (request == null) {
+            return;
+        }
+        
         String className = exception.getClass().getSimpleName().toLowerCase().replaceAll("(?i)(?=exception)", " ");
         String requestIp = request.getRemoteAddr();
         int requestPort = request.getServerPort();
@@ -45,21 +49,21 @@ public abstract class BaseExceptionLogStrategy implements ExceptionLogStrategy {
         StringWriter stringWriter = new StringWriter();
         try (PrintWriter printWriter = new PrintWriter(stringWriter)) {
             Throwable[] suppressed = throwable.getSuppressed();
-            if (suppressed.length > 0) {
-                for (Throwable t : suppressed) {
-                    t.printStackTrace(printWriter);
-                }
+            for (Throwable t : suppressed) {
+                t.printStackTrace(printWriter);
             }
         }
         return stringWriter.toString();
     }
 
-
-    protected ExceptionDetails handleExceptionInformation(Throwable exception) {
+    protected ExceptionDetails getExceptionDetails(Throwable exception) {
+        if (ObjectUtil.isNull(exception)) {
+            return new ExceptionDetails();
+        }
+        
         String message = exception.getMessage();
         String stackTrace = getStackTrace(exception);
         String suppressed = getSuppressedStackTrace(exception);
         return new ExceptionDetails(message, stackTrace, suppressed);
     }
-
 }
