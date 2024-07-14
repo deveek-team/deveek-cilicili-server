@@ -15,27 +15,25 @@ import java.util.Map;
  * @author banne
  */
 public class ExceptionLogStrategyFactory {
-    // 通过 HashMap 存储 key - value 通过get获取
-
-    private static final Map<Class<?>, ExceptionLogStrategy> strategyMap = new HashMap<>();
+    private static final Map<Class<?>, ExceptionLogStrategy> EXCEPTION_LOG_STRATEGY_MAP = new HashMap<>();
 
     static {
-        // 自定义异常策略
-        strategyMap.put(BaseException.class, new CiliCiliExceptionLogStrategy());
-        strategyMap.put(ClientException.class, new CiliCiliExceptionLogStrategy());
-        strategyMap.put(ServerException.class, new CiliCiliExceptionLogStrategy());
-        strategyMap.put(RemoteException.class, new CiliCiliExceptionLogStrategy());
+        CiliCiliExceptionLogStrategy ciliCiliExceptionLogStrategy = new CiliCiliExceptionLogStrategy();
+        EXCEPTION_LOG_STRATEGY_MAP.put(BaseException.class, ciliCiliExceptionLogStrategy);
+        EXCEPTION_LOG_STRATEGY_MAP.put(ClientException.class, ciliCiliExceptionLogStrategy);
+        EXCEPTION_LOG_STRATEGY_MAP.put(ServerException.class, ciliCiliExceptionLogStrategy);
+        EXCEPTION_LOG_STRATEGY_MAP.put(RemoteException.class, ciliCiliExceptionLogStrategy);
 
-        // 系统异常策略
-        strategyMap.put(Exception.class, new SystemExceptionLogStrategy());
+        SystemExceptionLogStrategy systemExceptionLogStrategy = new SystemExceptionLogStrategy();
+        EXCEPTION_LOG_STRATEGY_MAP.put(Exception.class, systemExceptionLogStrategy);
     }
 
     public static ExceptionLogStrategy getStrategy(Exception e) {
         Class<?> exceptionClass = e.getClass();
-        ExceptionLogStrategy strategy = strategyMap.get(exceptionClass);
+        ExceptionLogStrategy strategy = EXCEPTION_LOG_STRATEGY_MAP.get(exceptionClass);
 
         if (strategy == null) {
-            strategy = strategyMap.get(Exception.class);
+            strategy = EXCEPTION_LOG_STRATEGY_MAP.get(Exception.class);
         }
 
         return strategy;
