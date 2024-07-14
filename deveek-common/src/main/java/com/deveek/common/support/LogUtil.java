@@ -4,14 +4,13 @@ import com.deveek.common.constant.LogFormatConstant;
 import com.deveek.common.constant.LogLevelConstant;
 import com.deveek.common.exceptionlog.strategy.ExceptionLogStrategy;
 import com.deveek.common.exceptionlog.support.ExceptionLogStrategyContext;
+import com.deveek.common.exceptionlog.support.ExceptionLogStrategyContextFactory;
 import com.deveek.common.exceptionlog.support.ExceptionLogStrategyHandler;
 import com.deveek.common.exceptionlog.factory.ExceptionLogStrategyFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * @author banne
@@ -20,8 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class LogUtil {
 
     public static HttpServletRequest getRequest() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
+        HttpServletRequest request = HttpContextHolder.getHttpServletRequest();
 
         return request;
     }
@@ -32,7 +30,6 @@ public class LogUtil {
         String logMessage = formatLog(getRequest(), LogLevelConstant.INFO_TYPE, LogFormatConstant.DEVER_LOG_FORMAT);
 
         logger.info("{}", logMessage);
-
     }
 
     public static void info(String message, Object... args) {
@@ -41,7 +38,6 @@ public class LogUtil {
         String logMessage = formatLog(getRequest(), LogLevelConstant.INFO_TYPE,  LogFormatConstant.DEVER_LOG_FORMAT);
 
         logger.info("{}, Message: {}", logMessage, formatMessage(message, args));
-
     }
 
     public static void warn() {
@@ -58,7 +54,6 @@ public class LogUtil {
         String logMessage = formatLog(getRequest(), LogLevelConstant.WARN_TYPE,  LogFormatConstant.DEVER_LOG_FORMAT);
 
         logger.warn("{}, Message: {}", logMessage, formatMessage(message, args));
-
     }
 
     public static void debug() {
@@ -75,7 +70,6 @@ public class LogUtil {
         String logMessage = formatLog(getRequest(), LogLevelConstant.DEBUG_TYPE,  LogFormatConstant.DEVER_LOG_FORMAT);
 
         logger.debug("{}, Message: {}", logMessage, formatMessage(message, args));
-
     }
 
     public static void error() {
@@ -95,13 +89,13 @@ public class LogUtil {
     }
 
 
-    public static void error(Exception e) {
-        ExceptionLogStrategyContext exceptionContext = new ExceptionLogStrategyContext();
-        ExceptionLogStrategy strategy = ExceptionLogStrategyFactory.getStrategy(e);
-        exceptionContext.setExceptionStrategy(strategy);
+    public static void error(Exception exception) {
+        Logger logger = getCallerLogger();
+        ExceptionLogStrategy exceptionLogStrategy = ExceptionLogStrategyFactory.getStrategy(exception);
 
-        ExceptionLogStrategyHandler handler = new ExceptionLogStrategyHandler(exceptionContext);
-        handler.handleStrategyException(e);
+        ExceptionLogStrategyContext exceptionLogStrategyContext = ExceptionLogStrategyContextFactory.createContext(logger,exception,exceptionLogStrategy);
+        ExceptionLogStrategyHandler handler = new ExceptionLogStrategyHandler(exceptionLogStrategyContext);
+        handler.handleStrategyException();
     }
 
     // 打印在控制台的格式
@@ -126,6 +120,7 @@ public class LogUtil {
             }
         }
         message = "[" + message + "]";
+
         return message;
     }
 
@@ -160,4 +155,5 @@ public class LogUtil {
 
         return logger;
     }
+
 }
