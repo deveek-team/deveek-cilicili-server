@@ -9,4 +9,9 @@ public interface CosService {
     String uploadFile(MultipartFile file, String dir);
 
     String getFileUrl(String fileName);
+
+    /**
+     * 断点续传视频
+     */
+    void continueUploadVideo(MultipartFile file, String video);
 }

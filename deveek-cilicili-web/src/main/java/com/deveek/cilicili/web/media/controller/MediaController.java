@@ -46,6 +46,15 @@ public class MediaController {
         
         return Result.success();
     }
+
+    @PostMapping("/api/v1/media/continue_upload_video")
+    public Result<Void> continueUploadVideo(@ModelAttribute VideoUploadDto videoUploadDto){
+        MultipartFile file = videoUploadDto.getFile();
+
+        cosService.continueUploadVideo(file, FileType.VIDEO);
+
+        return Result.success();
+    }
     
     @GetMapping("/api/v1/media/get_video")
     public Result<VideoVo> getVideo(@ModelAttribute VideoGetDto videoGetDto) {
