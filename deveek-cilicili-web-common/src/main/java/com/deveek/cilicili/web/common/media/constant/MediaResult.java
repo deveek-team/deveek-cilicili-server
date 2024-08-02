@@ -7,7 +7,13 @@ import com.deveek.common.constant.Result;
  */
 public class MediaResult {
     public static final Result UPLOAD_FAILURE = new Result(3000, "upload failure");
-    
+
+    public static final Result COMPLETE_FAILURE = new Result(3000, "complete failure");
+
+    public static final Result INITIATE_FAILURE = new Result(3000, "initiate failure");
+
+    public static final Result LISTPARTS_FAILURE = new Result(3000, "listParts failure");
+
     public static final Result DIRNAME_IS_BLANK = new Result(3000, "dirname is blank");
     
     public static final Result FILENAME_IS_BLANK = new Result(3000, "filename is blank");
