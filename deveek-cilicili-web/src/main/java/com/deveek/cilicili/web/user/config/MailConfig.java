@@ -14,7 +14,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author vocmi
  */
 @Configuration
-@EnableAsync
 public class MailConfig {
     @Bean
     public JavaMailSender javaMailSender(MailProperties mailProperties) {
@@ -23,17 +22,5 @@ public class MailConfig {
         javaMailSender.setUsername(mailProperties.getUsername());
         javaMailSender.setPassword(mailProperties.getPassword());
         return javaMailSender;
-    }
-    
-    @Bean(name = "smsThreadPoolTaskExecutor")
-    public ThreadPoolTaskExecutor smsThreadPoolTaskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("SmsThreadPoolTaskExecutor-");
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        executor.initialize();
-        return executor;
     }
 }

@@ -20,13 +20,13 @@ public class MailServiceImpl implements MailService {
     @Resource
     private MailProperties mailProperties;
     
-    @Async("smsThreadPoolTaskExecutor")
+    @Async("smsExecutorService")
     @Override
     public void sendVerifyCode(String verifyCode, String receiver) {
         sendContext(EmailConstant.SUBJECT, verifyCode, mailProperties.getUsername(), receiver);
     }
     
-    @Async("smsThreadPoolTaskExecutor")
+    @Async("smsExecutorService")
     public void sendContext(String subject, String content, String sender, String receiver) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setSubject(subject);
