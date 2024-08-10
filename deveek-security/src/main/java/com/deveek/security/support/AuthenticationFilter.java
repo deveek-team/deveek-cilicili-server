@@ -79,25 +79,33 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         String authoritiesJson = accessTokenJwt.getPayload(SecurityConstant.AUTHORITIES).toString();
         Collection<? extends GrantedAuthority> authorities = JSON.parseObject(authoritiesJson, new TypeReference<>() {});
         
-        // Set user info to UserContext.
-        UserContext userContext = new UserContext(userId, username);
-        userContextHolder.setUserContext(userContext);
-        
-        // If the access_token is inconsistent with the access_token stored in Redis,
-        // notify the client to obtain a new access_token.
-        String accessTokenKey = SecurityCacheKey.ACCESS_TOKEN.getKey(userId);
-        String accessTokenCache = (String) redisTemplate.opsForValue().get(accessTokenKey);
-        if (!accessToken.equals(accessTokenCache)) {
-            ResponseUtil.write(response, Result.TOKEN_EXPIRED);
-            return;
+        try {
+            // Set user info to UserContext.
+            UserContext userContext = new UserContext(userId, username);
+            userContextHolder.setUserContext(userContext);
+            
+            // If the access_token is inconsistent with the access_token stored in Redis,
+            // notify the client to obtain a new access_token.
+            String accessTokenKey = SecurityCacheKey.ACCESS_TOKEN.getKey(userId);
+            String accessTokenCache = (String) redisTemplate.opsForValue().get(accessTokenKey);
+            if (!accessToken.equals(accessTokenCache)) {
+                ResponseUtil.write(response, Result.TOKEN_EXPIRED);
+                return;
+            }
+            
+            // If the user is not authenticated, then authenticate the user.
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password, authorities));
+            }
+            
+            // Release, execute business procedure
+            filterChain.doFilter(request, response);
+        } finally {
+            // Remove user context entry, avoid memory leaks and dirty read issues
+            userContextHolder.clear();
+            
+            // Remove security context, avoid memory leaks and dirty read issues
+            SecurityContextHolder.clearContext();
         }
-        
-        // If the user is not authenticated, then authenticate the user.
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            SecurityContextHolder.getContext()
-                .setAuthentication(new UsernamePasswordAuthenticationToken(username, password, authorities));
-        }
-        
-        filterChain.doFilter(request, response);
     }
 }

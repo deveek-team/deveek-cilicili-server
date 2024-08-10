@@ -2,10 +2,12 @@ package com.deveek.security.service.impl;
 
 import com.deveek.security.common.model.vo.UserContext;
 import com.deveek.security.common.service.UserContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * @author harvey 
  */
+@Component
 public class UserContextHolderImpl implements UserContextHolder {
     private static final ThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new ThreadLocal<>();
     
