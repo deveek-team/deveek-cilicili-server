@@ -1,5 +1,6 @@
 package com.deveek.security.service.impl;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.deveek.security.common.model.vo.UserContext;
 import com.deveek.security.common.service.UserContextHolder;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserContextHolderImpl implements UserContextHolder {
-    private static final InheritableThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new InheritableThreadLocal<>();
+    private static final TransmittableThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new TransmittableThreadLocal<>();
     
     public void setUserContext(UserContext userContext) {
         USER_CONTEXT_THREAD_LOCAL.set(userContext);
