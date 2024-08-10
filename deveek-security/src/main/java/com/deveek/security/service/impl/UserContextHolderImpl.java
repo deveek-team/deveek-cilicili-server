@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserContextHolderImpl implements UserContextHolder {
-    private static final ThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new ThreadLocal<>();
+    private static final InheritableThreadLocal<UserContext> USER_CONTEXT_THREAD_LOCAL = new InheritableThreadLocal<>();
     
     public void setUserContext(UserContext userContext) {
         USER_CONTEXT_THREAD_LOCAL.set(userContext);
